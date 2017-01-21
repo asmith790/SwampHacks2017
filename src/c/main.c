@@ -3,7 +3,7 @@ static Window *s_main_window;
 static TextLayer *s_time_layer;
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
-
+  //  doAlert();
 }
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
