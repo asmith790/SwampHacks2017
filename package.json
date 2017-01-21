@@ -1,0 +1,21 @@
+{
+    "author": "ars_610@yahoo.com",
+    "dependencies": {},
+    "keywords": [],
+    "name": "vibratealerts",
+    "pebble": {
+        "displayName": "VibrateAlerts",
+        "enableMultiJS": true,
+        "messageKeys": [],
+        "projectType": "native",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "uuid": "5bd83be7-4da8-416a-b3dd-a1455d8a2f17",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}
