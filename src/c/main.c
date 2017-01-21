@@ -20,9 +20,10 @@ APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
 }
 
 static Window *s_main_window;
+static Window *s_alert_display;
 static TextLayer *s_time_layer;
 static TextLayer *s_app_name;
-
+static TextLayer *s_alert;
 
 
 static void update_time() {
@@ -77,13 +78,32 @@ static void main_window_unload(Window *window){
   text_layer_destroy(s_time_layer);
   }
 
+//Load and Unload for Alert Display
+static void alert_display_load(Window *window){
+	Layer *window_layer = window_get_root_layer(window);
+  GRect bounds = layer_get_bounds(window_layer);
+	
+	//Alert Text
+	s_alert = text_layer_create(
+	GRect(0,PBL_IF_ROUND_ELSE(58, 52), bounds.size.w, 50));
+	
+	text_layer_set_background_color(s_alert, GColorClear);
+	text_layer_set_text_color(s_alert, GColorBlack);
+	text_layer_set_text(s_alert, "ALERT!");
+	text_layer_set_font(s_alert, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
+  text_layer_set_text_alignment(s_alert, GTextAlignmentCenter);
+}
+static void alert_display_unload(Window *window){
+	text_layer_destroy(s_alert);
+}
+
 //Gets Time
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 update_time();
 }
 static void init(){
   
-  app_message_register_inbox_received(inbox_received_callback);
+app_message_register_inbox_received(inbox_received_callback);
 app_message_register_inbox_dropped(inbox_dropped_callback);
 app_message_register_outbox_failed(outbox_failed_callback);
 app_message_register_outbox_sent(outbox_sent_callback);
@@ -91,13 +111,20 @@ app_message_register_outbox_sent(outbox_sent_callback);
 
  //Create a window element
   s_main_window = window_create();
+	s_alert_display = window_create();
   
-  //Manage  elements inside the window 
+  //Manage  elements inside the main window 
   window_set_window_handlers(s_main_window, (WindowHandlers){
   .load = main_window_load,
   .unload = main_window_unload
   });
   
+	//Manages elements for alert notification
+	window_set_window_handlers(s_alert_display, (WindowHandlers){
+		.load = alert_display_load,
+		.unload = alert_display_unload
+	});
+	
   //Show the window on the watch
   window_stack_push(s_main_window, true);
 	// Make sure the time is displayed from the start
@@ -105,16 +132,18 @@ update_time();
 
 	// Register with TickTimerService
 tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+	
+	//PUSHES ALERT TEST
+//window_stack_push(s_alert_display, false);
 }
 
 static void deinit(){
   //Destroy Window
   window_destroy(s_main_window);
+	window_destroy(s_alert_display);
 }
 int main(void){
   init();
     app_event_loop();
   deinit();
 }
-
-
