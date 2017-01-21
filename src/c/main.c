@@ -8,6 +8,7 @@ static void main_window_load(Window *window){
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 	
+  //test
 	//Create text layer with specific bounds
 	s_time_layer = text_layer_create(
 	GRect(0,PBL_IF_ROUND_ELSE(58, 52), bounds.size.w, 50));
