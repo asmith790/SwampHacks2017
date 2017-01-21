@@ -3,6 +3,7 @@
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
     vibes_double_pulse();
+	
 }
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
@@ -84,7 +85,7 @@ static void main_window_unload(Window *window){
 static void alert_display_load(Window *window){
 	Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
-	window_set_background_color(window, GColorRed);
+	window_set_background_color(window, GColorRajah);
 	
 	//Alert Text
 	s_alert = text_layer_create(
@@ -92,7 +93,7 @@ static void alert_display_load(Window *window){
 	
 	text_layer_set_background_color(s_alert, GColorClear);
 	text_layer_set_text_color(s_alert, GColorWhite);
-	text_layer_set_text(s_alert, "ALERT!");
+	text_layer_set_text(s_alert, "ALERT");
 	text_layer_set_font(s_alert, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
   text_layer_set_text_alignment(s_alert, GTextAlignmentCenter);
 	
@@ -138,8 +139,8 @@ update_time();
 	// Register with TickTimerService
 tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
 	
-	//PUSHES ALERT TEST
-window_stack_push(s_alert_display, false);
+window_stack_push(s_alert_display, false);	
+	
 }
 
 static void deinit(){
@@ -147,6 +148,12 @@ static void deinit(){
   window_destroy(s_main_window);
 	window_destroy(s_alert_display);
 }
+
+void doAlert(){
+	vibes_double_pulse();
+	window_stack_push(s_alert_display, false);
+}
+
 int main(void){
   init();
     app_event_loop();
