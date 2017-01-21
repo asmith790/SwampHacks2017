@@ -44,7 +44,7 @@ static void main_window_load(Window *window){
   //Get info about the window 
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
-	
+	window_set_background_color(window, GColorBlack);
 	
 	//Create text layer displaying app name with specific bounds
 	s_app_name = text_layer_create(
@@ -65,7 +65,7 @@ static void main_window_load(Window *window){
 	
 	//Improve the layout
 	text_layer_set_background_color(s_time_layer, GColorClear);
-	text_layer_set_text_color(s_time_layer, GColorBlue);
+	text_layer_set_text_color(s_time_layer, GColorWhite);
   text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
 	
