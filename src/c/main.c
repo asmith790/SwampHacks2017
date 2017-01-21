@@ -1,5 +1,6 @@
 #include <pebble.h>
 
+
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
     vibes_double_pulse();
 }
@@ -51,19 +52,20 @@ static void main_window_load(Window *window){
 	GRect(0, PBL_IF_ROUND_ELSE(20, 15), bounds.size.w,50));
 	
 	//Edit App Name Display 
-	//NOT CURRENTLY FUNCTIONAL
 	text_layer_set_background_color(s_app_name, GColorClear);
 	text_layer_set_text_color(s_app_name, GColorBlack);
 	text_layer_set_text(s_app_name, "00:00");
 	text_layer_set_font(s_app_name, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
   text_layer_set_text_alignment(s_app_name, GTextAlignmentCenter);
 	
+	 layer_add_child(window_layer, text_layer_get_layer(s_app_name));
 	
 	//Create clock text layer with specific bounds for displaying time
 	s_time_layer = text_layer_create(
 	GRect(0,PBL_IF_ROUND_ELSE(58, 52), bounds.size.w, 50));
 	
 	//Improve the layout
+	
 	text_layer_set_background_color(s_time_layer, GColorClear);
 	text_layer_set_text_color(s_time_layer, GColorWhite);
   text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
@@ -82,16 +84,19 @@ static void main_window_unload(Window *window){
 static void alert_display_load(Window *window){
 	Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
+	window_set_background_color(window, GColorRed);
 	
 	//Alert Text
 	s_alert = text_layer_create(
 	GRect(0,PBL_IF_ROUND_ELSE(58, 52), bounds.size.w, 50));
 	
 	text_layer_set_background_color(s_alert, GColorClear);
-	text_layer_set_text_color(s_alert, GColorBlack);
+	text_layer_set_text_color(s_alert, GColorWhite);
 	text_layer_set_text(s_alert, "ALERT!");
 	text_layer_set_font(s_alert, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
   text_layer_set_text_alignment(s_alert, GTextAlignmentCenter);
+	
+	 layer_add_child(window_layer, text_layer_get_layer(s_alert));
 }
 static void alert_display_unload(Window *window){
 	text_layer_destroy(s_alert);
@@ -134,7 +139,7 @@ update_time();
 tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
 	
 	//PUSHES ALERT TEST
-//window_stack_push(s_alert_display, false);
+window_stack_push(s_alert_display, false);
 }
 
 static void deinit(){
@@ -147,3 +152,4 @@ int main(void){
     app_event_loop();
   deinit();
 }
+
