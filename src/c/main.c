@@ -27,7 +27,8 @@ static void main_window_load(Window *window){
 	s_app_name = text_layer_create(
 	GRect(0, PBL_IF_ROUND_ELSE(20, 15), bounds.size.w,50));
 	
-	//Edit App Name Display
+	//Edit App Name Display 
+	//NOT CURRENTLY FUNCTIONAL
 	text_layer_set_background_color(s_app_name, GColorClear);
 	text_layer_set_text_color(s_app_name, GColorBlack);
 	text_layer_set_text(s_app_name, "00:00");
@@ -87,4 +88,21 @@ int main(void){
   init();
     app_event_loop();
   deinit();
+}
+
+
+static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
+// doAlert();
+}
+
+static void inbox_dropped_callback(AppMessageResult reason, void *context) {
+APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
+}
+
+static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
+APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
+}
+
+static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
+APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
 }
