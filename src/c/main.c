@@ -1,7 +1,29 @@
 #include <pebble.h>
+
+static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
+    vibes_double_pulse();
+}
+
+static void inbox_dropped_callback(AppMessageResult reason, void *context) {
+APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
+      vibes_double_pulse();
+}
+
+static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
+APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
+       vibes_double_pulse();
+}
+
+static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
+APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
+      vibes_double_pulse();
+}
+
 static Window *s_main_window;
 static TextLayer *s_time_layer;
 static TextLayer *s_app_name;
+
+
 
 static void update_time() {
   // Get a tm structure
@@ -60,6 +82,11 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 update_time();
 }
 static void init(){
+  
+  app_message_register_inbox_received(inbox_received_callback);
+app_message_register_inbox_dropped(inbox_dropped_callback);
+app_message_register_outbox_failed(outbox_failed_callback);
+app_message_register_outbox_sent(outbox_sent_callback);
 
 
  //Create a window element
@@ -91,18 +118,3 @@ int main(void){
 }
 
 
-static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
-// doAlert();
-}
-
-static void inbox_dropped_callback(AppMessageResult reason, void *context) {
-APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
-}
-
-static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
-APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
-}
-
-static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
-APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
-}
