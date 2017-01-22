@@ -34,7 +34,7 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button"
+        android:id="@+id/audioSwitch"
         android:onClick="clickSwitch"
         android:layout_marginTop="11dp"
         android:layout_below="@+id/textView3"
@@ -52,6 +52,16 @@
         android:layout_above="@+id/button2"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="68dp" />
+
+    <TextView
+        android:text="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:id="@+id/valueDebug"
+        android:textSize="18sp" />
 
 
 </RelativeLayout>

@@ -13,7 +13,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.media.MediaPlayer;
@@ -28,7 +30,7 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-    int threshold = 60;
+    int threshold = 100;
     private static final String LOG_TAG = "AudioRecordTest";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static String mFileName = null;
@@ -64,30 +66,56 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mFileName = getExternalCacheDir().getAbsolutePath();
         mFileName += "/audiorecordtest.3gp";
+
     }
 
     public void clickSwitch(View view) {
-        if(!switchOn) {
-            PebbleKit.startAppOnPebble(getApplicationContext(), WATCHAPP_UUID);
+        Log.d("clickSwitch()", "TESTING!!!");
+        switchOn = !switchOn;
+        int x;
+        double x2;
+        double db = 0;
+        boolean stopped = false;
+        while(switchOn) {
             //Start Recording
-            mRecorder = new MediaRecorder();
-            mRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION);
-            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-            mRecorder.setOutputFile(mFileName);
-            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-
-            try {
-                mRecorder.prepare();
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "prepare() failed");
+            if(!stopped) {
+                mRecorder = new MediaRecorder();
+                mRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION);
+                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                mRecorder.setOutputFile(mFileName);
+                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                try {
+                    mRecorder.prepare();
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "prepare() failed");
+                }
+                mRecorder.start();
             }
-            mRecorder.start();
+            stopped = true;
+            x = mRecorder.getMaxAmplitude();
+            x2 = x;
+            db = (20 * Math.log10(x2 / 0.1));
+            Log.d("SPLService", "db = " + db);
+            TextView volume = (TextView)findViewById(R.id.valueDebug);
+            volume.setText("" + Math.round(db));
+            if(db > threshold) {
+                break;
+            }
+            try
+            {
+                Thread.sleep(500);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
         }
-        else {
+        if(stopped) {
             //Stop recording
             mRecorder.stop();
             mRecorder.release();
             mRecorder = null;
+            PebbleKit.startAppOnPebble(getApplicationContext(), WATCHAPP_UUID);
             mPlayer = new MediaPlayer();
             try {
                 mPlayer.setDataSource(mFileName);
@@ -96,9 +124,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Log.e(LOG_TAG, "prepare() failed");
             }
-            PebbleKit.closeAppOnPebble(getApplicationContext(), WATCHAPP_UUID);
+            //PebbleKit.closeAppOnPebble(getApplicationContext(), WATCHAPP_UUID);
         }
-        switchOn = !switchOn;
     }
 
     public void startCalibation(View view) {
@@ -137,4 +164,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
     }
+
 }
