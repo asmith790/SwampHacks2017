@@ -30,7 +30,8 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-    int threshold = 100;
+
+    int threshold = 107;
     private static final String LOG_TAG = "AudioRecordTest";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static String mFileName = null;
@@ -69,8 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void clickSwitch(View view) {
-        Log.d("clickSwitch()", "TESTING!!!");
+
+    public void clickSwitch(View view){
+        Log.d("SPLService", "hi");
         switchOn = !switchOn;
         int x;
         double x2;
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             //Start Recording
             if(!stopped) {
                 mRecorder = new MediaRecorder();
-                mRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION);
+                mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
                 mRecorder.setOutputFile(mFileName);
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("SPLService", "db = " + db);
             TextView volume = (TextView)findViewById(R.id.valueDebug);
             volume.setText("" + Math.round(db));
-            if(db > threshold) {
+            if(db >= threshold) {
                 break;
             }
             try
