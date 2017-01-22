@@ -6,12 +6,19 @@
     "pebble": {
         "displayName": "VibrateAlerts",
         "enableMultiJS": true,
-        "messageKeys": [],
+        "messageKeys": [
+            "Trigger"
+        ],
         "projectType": "native",
         "resources": {
             "media": []
         },
         "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk"
+        ],
         "uuid": "5bd83be7-4da8-416a-b3dd-a1455d8a2f17",
         "watchapp": {
             "watchface": false

@@ -1,26 +1,5 @@
 #include <pebble.h>
 
-
-static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
-    vibes_double_pulse();
-	
-}
-
-static void inbox_dropped_callback(AppMessageResult reason, void *context) {
-APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
-      vibes_double_pulse();
-}
-
-static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
-APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
-       vibes_double_pulse();
-}
-
-static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
-APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
-      vibes_double_pulse();
-}
-
 static Window *s_main_window;
 static Window *s_alert_display;
 static TextLayer *s_time_layer;
@@ -47,7 +26,8 @@ static void main_window_load(Window *window){
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 	window_set_background_color(window, GColorBlack);
-	
+
+  
 	//Create text layer displaying app name with specific bounds
 	s_app_name = text_layer_create(
 	GRect(0, PBL_IF_ROUND_ELSE(20, 15), bounds.size.w,50));
@@ -96,8 +76,10 @@ static void alert_display_load(Window *window){
 	text_layer_set_text(s_alert, "ALERT");
 	text_layer_set_font(s_alert, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
   text_layer_set_text_alignment(s_alert, GTextAlignmentCenter);
+
 	
 	 layer_add_child(window_layer, text_layer_get_layer(s_alert));
+
 }
 static void alert_display_unload(Window *window){
 	text_layer_destroy(s_alert);
@@ -108,12 +90,7 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 update_time();
 }
 static void init(){
-  
-app_message_register_inbox_received(inbox_received_callback);
-app_message_register_inbox_dropped(inbox_dropped_callback);
-app_message_register_outbox_failed(outbox_failed_callback);
-app_message_register_outbox_sent(outbox_sent_callback);
-
+      vibes_double_pulse();
 
  //Create a window element
   s_main_window = window_create();
