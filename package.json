@@ -1,0 +1,21 @@
+{
+    "author": "ars_610@yahoo.com",
+    "dependencies": {},
+    "keywords": [],
+    "name": "soundnotification",
+    "pebble": {
+        "displayName": "SoundNotification",
+        "enableMultiJS": true,
+        "messageKeys": [],
+        "projectType": "native",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "uuid": "198aeba1-fce1-40bd-9986-131ca23b2917",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}
