@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_toast_container"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingTop="8dp"
+    >
+    <TextView android:id="@+id/toastText"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:textColor="#FF1493"
+        />
+
+</LinearLayout>
