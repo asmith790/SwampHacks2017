@@ -2,24 +2,17 @@
     "author": "ars_610@yahoo.com",
     "dependencies": {},
     "keywords": [],
-    "name": "vibratealerts",
+    "name": "soundnotification",
     "pebble": {
-        "displayName": "VibrateAlerts",
+        "displayName": "SoundNotification",
         "enableMultiJS": true,
-        "messageKeys": [
-            "Trigger"
-        ],
+        "messageKeys": [],
         "projectType": "native",
         "resources": {
             "media": []
         },
         "sdkVersion": "3",
-        "targetPlatforms": [
-            "aplite",
-            "basalt",
-            "chalk"
-        ],
-        "uuid": "5bd83be7-4da8-416a-b3dd-a1455d8a2f17",
+        "uuid": "198aeba1-fce1-40bd-9986-131ca23b2917",
         "watchapp": {
             "watchface": false
         }
